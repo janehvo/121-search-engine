@@ -21,7 +21,7 @@ def inverted_index(url, data, index_file):
 def check_size(index_file):
     global index
     size = sys.getsizeof(index)
-    if size > 500000:
+    if size > 1000000:
         print('writing')
         json.dump(index, index_file, indent=3)
         index.clear()

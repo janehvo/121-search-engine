@@ -48,7 +48,7 @@ def get_document_count():
 
 
 if __name__ == "__main__":
-    get_files('/Users/jane/Desktop/ANALYST')
-    # get_files('/Users/jane/Desktop/corpus')
+    # get_files('/Users/jane/Desktop/ANALYST')
+    get_files('/Users/jane/Desktop/corpus')
     print('document count: ', get_document_count())
     print('unique tokens', get_tokens())
