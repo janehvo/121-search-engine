@@ -9,6 +9,7 @@
 
 import time
 import json, os, sys, re
+from urllib.parse import urldefrag
 from collections import defaultdict
 from bs4 import BeautifulSoup
 from nltk.stem import PorterStemmer
@@ -39,7 +40,7 @@ def create_partial_indexes(root_directory):
                     with open(path) as json_file:
                         data = json.load(json_file)
                         # mapping the docID to the document
-                        url_id_map[docID] = data['url']
+                        url_id_map[docID] = urldefrag(data['url'])[0]
 
                         # get text in file and create index
                         data = get_postings(docID, data['content'])
@@ -77,16 +78,15 @@ def get_postings(docID, content):
         # calculating TF (term frequency) for terms in document
         # will be useful later for calculating tfIDF
         norm_tf = term_freq[token]/word_count
-        text_importance = []
-        try:
+        text_importance = 0
+        if token in html:
             text_importance = html[token]
-        except KeyError:
-            continue
+
         # replace any punctuation in the token
         token = re.sub("[^0-9a-zA-Z]+", "", token)
         # add to partial index
         if token != "":
-            posting = {'docID':docID, 'tf-idf':norm_tf, 'html': text_importance}
+            posting = {'docID':docID, 'tf-idf':norm_tf, 'html':text_importance}
             index[token].append(posting)
 
 
@@ -131,7 +131,7 @@ def write_to_partial():
     size = sys.getsizeof(index)
 
     # if size > 100000000:
-    if size > 100000:
+    if size > 1000000:
         filename = 'partials/index' + str(partial) + '.json'
         partial_index = open(filename, 'w')
         print('writing to', filename)
