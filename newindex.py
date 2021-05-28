@@ -65,6 +65,7 @@ def get_postings(docID, content):
     soup = BeautifulSoup(content, 'html.parser')
     # find important html tags in text
     html = get_html(soup)
+
     # tokenize entire document
     for token in soup.get_text().split():
         if token != "":
@@ -84,8 +85,9 @@ def get_postings(docID, content):
         # replace any punctuation in the token
         token = re.sub("[^0-9a-zA-Z]+", "", token)
         # add to partial index
-        posting = {'docID':docID, 'tf-idf':norm_tf, 'html': text_importance}
-        index[token].append(posting)
+        if token != "":
+            posting = {'docID':docID, 'tf-idf':norm_tf, 'html': text_importance}
+            index[token].append(posting)
 
 
 def get_html(soup)->defaultdict(list):
@@ -181,4 +183,5 @@ if __name__ == "__main__":
     print('merging partial indexes')
     set_doc_count(document_count)
     create_index()
+    
     print("ELAPSED TIME FOR CREATING INDEX: ", str(time.time() - start), "SECONDS")
