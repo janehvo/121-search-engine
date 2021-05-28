@@ -1,5 +1,5 @@
 from nltk import PorterStemmer
-import re, json
+import re, json, time
 
 
 # split the query string if it is a phrase
@@ -11,29 +11,31 @@ import re, json
 # return the top 10 results (by score)
 
 
-
 def retrieve_query(query:str):
-    term_results = []
-    stemmer = PorterStemmer()
-    # SPLLIT AND TOKENIZE QUERY
-    # get rid of any punctuation in query
-    query = re.sub("[^0-9a-zA-Z]+", "", query)
+    try:
+        term_results = []
+        stemmer = PorterStemmer()
+        # SPLLIT AND TOKENIZE QUERY
+        # get rid of any punctuation in query
+        query = re.sub("[^0-9a-zA-Z]+", " ", query)
 
-    for term in query.split():
-        term = stemmer.stem(term)
-        marker = term[0]
-        filename = 'index/' + marker + '.txt'
-        with open(filename) as index:
-            postings = json.load(index)[term]
-            term_results.append(rank(postings))
-            postings.clear()
-        index.close()
+        for term in query.split():
+            term = stemmer.stem(term)
+            marker = term[0]
+            filename = 'index/' + marker + '.txt'
+            with open(filename) as index:
+                postings = json.load(index)[term]
+                term_results.append(rank(postings))
+                postings.clear()
+            index.close()
 
-    result = merge_results(term_results)
+        result = merge_results(term_results)
 
-    print('\nSEARCH RESULTS')
-    for r in get_results(result):
-        print(r)
+        print('\nSEARCH RESULTS')
+        for r in get_results(result):
+            print(r)
+    except KeyError:
+        print("Sorry, there were no pages matching your request.")
 
 
 def rank(postings:list):
@@ -79,5 +81,8 @@ def get_results(posting:dict)->list:
 
 
 if __name__ == "__main__":
-    query = input('what would u like to search?\n')
+    query = input('what would you like to search?\n')
+    start = time.time()
     retrieve_query(query)
+
+    print("TIME TO RETRIEVE QUERY: ", str(time.time() - start), "seconds")
