@@ -1,2 +1,6 @@
 __pycache__
 index.json
+partials
+index
+test.py
+.DS_Store
