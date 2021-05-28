@@ -1,8 +1,11 @@
 # script to merge all partial indexes in /partials directory
+# ===================================
 # PARTIAL INDEX STRUCTURE:
 #   { term: [
+#       {docID: _, tfidf: _, html: []},
 #       {docID: _, tfidf: _, html: []}
 #   ]]}
+# ===================================
 
 # outline of what i plan to do:
 #   first, output every term into a corresponding alphabetized file
@@ -19,7 +22,7 @@ from jsonmerge import merge
 from math import log
 
 
-DOC_COUNT = 1988
+DOC_COUNT = 0
 
 def set_doc_count(count):
     global DOC_COUNT
@@ -62,6 +65,8 @@ def write_to_disk(partial_index):
                 f.close()
                 final.clear()
 
+                filename = char_file
+                
                 # open a new file with the correct corresponding character marker
                 f = open(char_file, 'a+')
                 try:
@@ -83,7 +88,6 @@ def add_tfIDF(index:dict):
         idf = log(DOC_COUNT / len(term))
         for posting in index[term]:
             tf = posting['tf-idf']
-            print(tf * idf)
             posting['tf-idf'] = tf * idf
 
 

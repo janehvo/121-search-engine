@@ -1,9 +1,13 @@
 # script to create partial indexes
+# ===================================
 # PARTIAL INDEX STRUCTURE:
 #   { term: [
+#       {docID: _, tfidf: _, html: []},
 #       {docID: _, tfidf: _, html: []}
 #   ]]}
+# ===================================
 
+import time
 import json, os, sys, re
 from collections import defaultdict
 from bs4 import BeautifulSoup
@@ -123,7 +127,7 @@ def write_to_partial():
     global partial
     # write partial index to file if the partial index is 100mb
     size = sys.getsizeof(index)
-    print(size)
+
     # if size > 100000000:
     if size > 100000:
         filename = 'partials/index' + str(partial) + '.json'
@@ -165,11 +169,16 @@ def get_stats():
 
 
 if __name__ == "__main__":
+    start = time.time()
     print('START')
 
     # CREATE PARTIAL INDEXES
+    print('creating partial indexes')
     create_partial_indexes('/Users/jane/Desktop/ANALYST')
     get_stats()
 
     # MERGE PARTIAL INDEX
-    set_doc_count(document_count)   # used for idf
+    print('merging partial indexes')
+    set_doc_count(document_count)
+    create_index()
+    print("ELAPSED TIME FOR CREATING INDEX: ", str(time.time() - start), "SECONDS")
