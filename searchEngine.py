@@ -138,4 +138,3 @@ if __name__ == "__main__":
     query = input('what would you like to search?\n')
 
     retrieve_query(query)
-
