@@ -3,5 +3,7 @@ index.json
 map.json
 partials
 index
+indexOfIndex
 test.py
+test.txt
 .DS_Store
