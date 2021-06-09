@@ -49,10 +49,11 @@ def create_index():
 # write to alphabetized files
 # all files will be in the index, which is a fodler
 def write_to_disk(partial_index):
-    filename = 'index/0.txt'
+    filename = 'index/a.txt'
     f = open(filename, 'r+')    # allows for read and write
-    final = json.load(f)    # dict
-    keys =[k for postings in final for k in postings.keys()]
+    final = json.load(f)    # array
+    # array to store terms
+    keys = [k for postings in final for k in postings.keys()]
     
     print(filename)
 

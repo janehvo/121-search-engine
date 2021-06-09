@@ -47,7 +47,7 @@ def create_partial_indexes(root_directory):
                         # get text in file and create index
                         data = get_postings(docID, data['content'])
 
-                        if sys.getsizeof(index) > 10000000:
+                        if sys.getsizeof(index) > 10000000: # 10mb
                             write_to_partial()
 
                         # change docID for every document
@@ -137,10 +137,7 @@ def write_to_partial():
     '''Write partial index to a file on the disk.'''
     global partial
     # write partial index to file if the partial index is 100mb
-    # size = sys.getsizeof(index)
 
-    # # if size > 100000000:
-    # if size > 1000000:
     filename = 'partials/index' + str(partial) + '.json'
     partial_index = open(filename, 'w')
     print('writing to', filename)

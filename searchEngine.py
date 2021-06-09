@@ -58,6 +58,7 @@ def retrieve_query(query:str):
 
 
 def get_position(marker, term)->int:
+    '''Access the index of the index to return term position.'''
     filename = 'indexOfIndex/' + marker + '.txt'
     f = open(filename, 'r')
     positions = json.load(f)
@@ -67,6 +68,7 @@ def get_position(marker, term)->int:
 
 
 def get_postings(marker, term, position)->list:
+    '''Return term postings.'''
     s = time.time()
 
     filename = 'index/' + marker + '.txt'
