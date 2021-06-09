@@ -1,3 +1,5 @@
+# referenced from https://python-adv-web-apps.readthedocs.io/en/latest/flask_forms.html
+
 from searchEngine import retrieve_query
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
