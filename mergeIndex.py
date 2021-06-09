@@ -21,10 +21,10 @@
 import json
 from os import listdir
 from math import log
-from restartIndex import reset_index
+#from restartIndex import reset_index
 
 
-DOC_COUNT = 55393
+DOC_COUNT = 0
 
 def set_doc_count(count):
     global DOC_COUNT
