@@ -22,9 +22,11 @@ def map_posting_positions():
         while index_file:
             position = index_file.tell()
             term = index_file.readline()
+            # end of file
             if term == ']':
                 break
             else:
+                # eval() returns a tuple for lines that have a comma at the end
                 posting = eval(term)
                 word = ''
                 if type(posting) == tuple:
